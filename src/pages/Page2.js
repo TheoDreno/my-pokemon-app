@@ -1,12 +1,14 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import PokemonInfos from "../composants/PokemonInfos";
 
 const Page2 = () => {
-  const url = `https://pokeapi.co/api/v2/pokemon/`;
+  const { name } = useParams();
+  console.log(name);
   return (
-    <div>
-      <NavLink to="/"> Retour</NavLink>
-    </div>
+    <>
+      <PokemonInfos name={name} />
+    </>
   );
 };
 

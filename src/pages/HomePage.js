@@ -6,7 +6,6 @@ const HomePage = () => {
   return (
     <div>
       <PokemonsList />
-      <NavLink to="/Page2"> Acces Page2</NavLink>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink, useMatch } from "react-router-dom";
 import PokemonCard from "./PokemonCard";
+import { Grid, Typography } from "@mui/material";
 
 const PokemonsList = () => {
   const [dataList, setDataList] = useState([]);
@@ -15,10 +16,13 @@ const PokemonsList = () => {
 
   return (
     <div>
-      <h1>Hello</h1>
-      {dataList.map((item) => (
-        <PokemonCard url={item.url} name={item.name} />
-      ))}
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        {dataList.map((item) => (
+          <Grid item xs={3}>
+            <PokemonCard url={item.url} name={item.name} />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };

@@ -9,7 +9,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/Page2" element={<Page2 />} />
+        <Route path="/page2/:name" element={<Page2 />} />
         {/* path="*" fonctionne si jamais l'url ne correspond à rien de déclaré au dessus */}
         <Route path="*" element={<HomePage />} />
       </Routes>
