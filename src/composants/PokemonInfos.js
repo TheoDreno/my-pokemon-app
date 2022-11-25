@@ -17,17 +17,18 @@ const PokemonInfos = ({ name }) => {
   // Le useEffect se joue lorsque le composant est monté
   useEffect(() => {
     axios
-      .get(`https://pokeapi.co/api/v2/pokemon-form/${name}`)
+      .get(`https://pokeapi.co/api/v2/pokemon/${name}`)
       .then((res) => setDataPokemon(res.data));
   });
 
   const handlePress = () => {
     navigate(`/`);
   };
+  console.log(dataPokemon.base_experience);
   return (
     <>
       <center>
-        <Box sx={{ width: "80%", height: "" }}>
+        <Box sx={{ width: "80%" }}>
           <Card sx={{ alignContent: "center", backgroundColor: "#b2dfdb" }}>
             <CardContent>
               <Typography variant="h1" fontFamily="Raleway">
@@ -44,7 +45,13 @@ const PokemonInfos = ({ name }) => {
             </center>
             <CardContent>
               <Typography fontFamily="Raleway">
-                Type : {/*{dataPokemon.types[0]?.type.name}*/}
+                Experiance de base : {dataPokemon.base_experience} xp
+              </Typography>
+              <Typography fontFamily="Raleway">
+                Taille : {dataPokemon.height} decimetres mdr
+              </Typography>
+              <Typography fontFamily="Raleway">
+                Poid : {dataPokemon.weight} grammes
               </Typography>
             </CardContent>
             <Button variant="contained" onClick={handlePress}>
