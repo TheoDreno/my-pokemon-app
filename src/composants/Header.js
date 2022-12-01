@@ -8,9 +8,17 @@ import {
   styled,
   alpha,
   InputBase,
+  Button,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleOnClick = () => {
+    navigate("/favoris");
+  };
+
   return (
     <Box sx={{}}>
       <AppBar position="static">
@@ -23,6 +31,9 @@ const Header = () => {
           >
             Mon Pokedex
           </Typography>
+          <Button variant="contained" color="success" onClick={handleOnClick}>
+            Mes favoris
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

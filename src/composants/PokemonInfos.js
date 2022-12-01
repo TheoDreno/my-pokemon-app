@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import {
   Box,
   Card,
@@ -10,21 +11,21 @@ import {
   Button,
 } from "@mui/material";
 
-const PokemonInfos = ({ name }) => {
+const PokemonInfos = (props) => {
   const [dataPokemon, setDataPokemon] = useState([]);
   const navigate = useNavigate();
 
   // Le useEffect se joue lorsque le composant est monté
   useEffect(() => {
     axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+      .get(`https://pokeapi.co/api/v2/pokemon/${props.name}`)
       .then((res) => setDataPokemon(res.data));
   });
 
   const handlePress = () => {
     navigate(`/`);
   };
-  console.log(dataPokemon.base_experience);
+
   return (
     <>
       <center>
@@ -32,7 +33,7 @@ const PokemonInfos = ({ name }) => {
           <Card sx={{ alignContent: "center", backgroundColor: "#b2dfdb" }}>
             <CardContent>
               <Typography variant="h1" fontFamily="Raleway">
-                {name}
+                {props.name}
               </Typography>
             </CardContent>
             <center>

@@ -7,28 +7,69 @@ import {
   Typography,
   CardMedia,
   Button,
+  CardHeader,
+  IconButton,
 } from "@mui/material";
-import { Link, useNavigate, NavLink } from "react-router-dom";
-import { style } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { useDispatch, useSelector } from "react-redux";
+import { addCard, removeCard } from "../store/Redux";
 
-const PokemonCard = ({ url, name }) => {
+const PokemonCard = (props) => {
   const [dataPoke, setDataPoke] = useState([]);
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(props.isChecked);
+  const [addButton, setAddButton] = useState("");
+
+  const dispatch = useDispatch();
+  const pageFavorisState = useSelector((state) => state.PageFavoris);
 
   useEffect(() => {
     axios
-      .get(`https://pokeapi.co/api/v2/pokemon-form/${name}`)
+      .get(`https://pokeapi.co/api/v2/pokemon-form/${props.name}`)
       .then((res) => setDataPoke(res.data?.sprites.front_default));
+
+    let includeId = pageFavorisState.find((card) => card.name === props.name);
+    if (includeId) {
+      setIsChecked(true);
+    }
+    if (!!isChecked) {
+      setAddButton(<BookmarkIcon />);
+    } else {
+      setAddButton(<BookmarkBorderIcon />);
+    }
   });
 
   const handleClick = () => {
-    navigate(`/page2/${name}`);
+    navigate(`/page2/${props.name}`);
+  };
+
+  const handlePressFav = (event) => {
+    if (!isChecked) {
+      setIsChecked(true);
+      dispatch(
+        addCard({
+          id: props.id,
+          name: props.name,
+          isChecked: true,
+        })
+      );
+      console.log("ajouté aux favoris");
+    } else {
+      if (event.target.baseURI.includes("PageFavoris")) {
+        dispatch(removeCard(props.name));
+      } else {
+        setIsChecked(false);
+        dispatch(removeCard(props.name));
+        console.log("suprimé des favoris");
+      }
+    }
   };
 
   return (
     <>
       <Box
-        onClick={handleClick}
         component="span"
         sx={{
           width: "100%",
@@ -36,25 +77,39 @@ const PokemonCard = ({ url, name }) => {
       >
         <Card
           sx={{
-            alignContent: "center",
             backgroundColor: "#bdbdbd",
             "&:hover": {
               bgcolor: "grey",
-              cursor: "pointer",
             },
           }}
         >
+          <CardHeader
+            action={
+              <IconButton onClick={handlePressFav}>
+                {addButton}
+                {/* {isChecked ? <BookmarkIcon /> : <BookmarkBorderIcon />} */}
+              </IconButton>
+            }
+          />
+
           <center>
-            <CardMedia
-              component="img"
-              src={dataPoke}
-              alt="green iguana"
-              sx={{ width: "40%" }}
-            />
+            <CardContent
+              onClick={handleClick}
+              sx={{
+                "&:hover": {
+                  cursor: "pointer",
+                },
+              }}
+            >
+              <CardMedia
+                component="img"
+                src={dataPoke}
+                alt="green iguana"
+                sx={{ width: "40%" }}
+              />
+              <Typography variant="h5">{props.name}</Typography>
+            </CardContent>
           </center>
-          <CardContent>
-            <Typography variant="h5">{name}</Typography>
-          </CardContent>
         </Card>
       </Box>
     </>
