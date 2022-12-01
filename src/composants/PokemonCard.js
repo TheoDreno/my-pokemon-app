@@ -20,24 +20,30 @@ const PokemonCard = (props) => {
   const [dataPoke, setDataPoke] = useState([]);
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(props.isChecked);
-  const [addButton, setAddButton] = useState("");
+  const [isFav, setIsFav] = useState();
 
   const dispatch = useDispatch();
   const pageFavorisState = useSelector((state) => state.PageFavoris);
 
   useEffect(() => {
-    axios
-      .get(`https://pokeapi.co/api/v2/pokemon-form/${props.name}`)
-      .then((res) => setDataPoke(res.data?.sprites.front_default));
+    try {
+      axios
+        .get(`https://pokeapi.co/api/v2/pokemon-form/${props.name}`)
+        .then((res) => setDataPoke(res.data?.sprites.front_default));
+    } catch (error) {
+      return error;
+    }
+  });
 
+  useEffect(() => {
     let includeId = pageFavorisState.find((card) => card.name === props.name);
     if (includeId) {
       setIsChecked(true);
     }
     if (!!isChecked) {
-      setAddButton(<BookmarkIcon />);
+      setIsFav(true);
     } else {
-      setAddButton(<BookmarkBorderIcon />);
+      setIsFav(false);
     }
   });
 
@@ -86,8 +92,7 @@ const PokemonCard = (props) => {
           <CardHeader
             action={
               <IconButton onClick={handlePressFav}>
-                {addButton}
-                {/* {isChecked ? <BookmarkIcon /> : <BookmarkBorderIcon />} */}
+                {isFav ? <BookmarkIcon /> : <BookmarkBorderIcon />}
               </IconButton>
             }
           />

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ titre }) => {
   const navigate = useNavigate();
 
   const handleOnClick = () => {
@@ -29,7 +29,7 @@ const Header = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            Mon Pokedex
+            {titre}
           </Typography>
           <Button variant="contained" color="success" onClick={handleOnClick}>
             Mes favoris

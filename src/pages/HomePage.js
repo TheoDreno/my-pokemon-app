@@ -7,7 +7,7 @@ import Header from "../composants/Header";
 const HomePage = () => {
   return (
     <div>
-      <Header />
+      <Header titre="Mon pokedex" />
       <PokemonsList />
     </div>
   );
